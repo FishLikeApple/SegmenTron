@@ -102,24 +102,20 @@ class CitySegmentation(SegmentationDataset):
                 'truck', 'bus', 'train', 'motorcycle', 'bicycle')
 
 
-def _get_city_pairs(folder, split='train'):
+def _get_dataset_pairs(img_folder, mask_folder, split='train'):
     def get_path_pairs(img_folder, mask_folder):
         img_paths = []
         mask_paths = []
-        for root, _, files in os.walk(img_folder):
-            for filename in files:
-                if filename.startswith('._'):
-                    continue
-                if filename.endswith('.png'):
-                    imgpath = os.path.join(root, filename)
-                    foldername = os.path.basename(os.path.dirname(imgpath))
-                    maskname = filename.replace('leftImg8bit', 'gtFine_labelIds')
-                    maskpath = os.path.join(mask_folder, foldername, maskname)
-                    if os.path.isfile(imgpath) and os.path.isfile(maskpath):
-                        img_paths.append(imgpath)
-                        mask_paths.append(maskpath)
-                    else:
-                        logging.info('cannot find the mask or image:', imgpath, maskpath)
+        for root, dirs, _ in os.walk(img_folder):
+            for dir in dirs:
+                foldername = os.path.basename(dir)
+                imgpath = os.path.join(img_folder, dir, foldername+'_PAN.tif')
+                maskpath = os.path.join(mask_folder, dir, foldername+'_mask.tif')
+                if os.path.isfile(imgpath) and os.path.isfile(maskpath):
+                    img_paths.append(imgpath)
+                    mask_paths.append(maskpath)
+                else:
+                    logging.info('cannot find the mask or image:', imgpath, maskpath)
         logging.info('Found {} images in the folder {}'.format(len(img_paths), img_folder))
         return img_paths, mask_paths
 
