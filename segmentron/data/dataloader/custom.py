@@ -8,12 +8,12 @@ from PIL import Image
 from .seg_data_base import SegmentationDataset
 
 
-class CitySegmentation(SegmentationDataset):
-    """Cityscapes Semantic Segmentation Dataset.
+class CustomSegmentation(SegmentationDataset):
+    """Custom Semantic Segmentation Dataset.
     Parameters
     ----------
     root : string
-        Path to Cityscapes folder. Default is './datasets/cityscapes'
+        Path to folder. Default is 'circle-finder-marathon-challenge-train-data'
     split: string
         'train', 'val' or 'test'
     transform : callable, optional
@@ -34,34 +34,24 @@ class CitySegmentation(SegmentationDataset):
     >>>     trainset, 4, shuffle=True,
     >>>     num_workers=4)
     """
-    BASE_DIR = 'cityscapes'
-    NUM_CLASS = 19
+    NUM_CLASS = 1
 
-    def __init__(self, root='datasets/cityscapes', split='train', mode=None, transform=None, **kwargs):
+    def __init__(self, root='circle-finder-marathon-challenge-train-data', split='train', mode=None, transform=None, **kwargs):
         super(CitySegmentation, self).__init__(root, split, mode, transform, **kwargs)
-        # self.root = os.path.join(root, self.BASE_DIR)
-        assert os.path.exists(self.root), "Please put dataset in {SEG_ROOT}/datasets/cityscapes"
-        self.images, self.mask_paths = _get_city_pairs(self.root, self.split)
+        assert os.path.exists(self.root)
+        _get_masks(self.root)
+        self.images, self.mask_paths = _get_dataset_pairs(self.root, self.split)
         assert (len(self.images) == len(self.mask_paths))
         if len(self.images) == 0:
             raise RuntimeError("Found 0 images in subfolders of:" + root + "\n")
-        self.valid_classes = [7, 8, 11, 12, 13, 17, 19, 20, 21, 22,
-                              23, 24, 25, 26, 27, 28, 31, 32, 33]
-        self._key = np.array([-1, -1, -1, -1, -1, -1,
-                              -1, -1, 0, 1, -1, -1,
-                              2, 3, 4, -1, -1, -1,
-                              5, -1, 6, 7, 8, 9,
-                              10, 11, 12, 13, 14, 15,
-                              -1, -1, 16, 17, 18])
-        self._mapping = np.array(range(-1, len(self._key) - 1)).astype('int32')
+        self._key = np.array([0, 255])
 
     def _class_to_index(self, mask):
         # assert the value
         values = np.unique(mask)
         for value in values:
-            assert (value in self._mapping)
-        index = np.digitize(mask.ravel(), self._mapping, right=True)
-        return self._key[index].reshape(mask.shape)
+            assert (value in self._key)
+        return mask // 255
 
     def __getitem__(self, index):
         img = Image.open(self.images[index]).convert('RGB')
@@ -97,46 +87,68 @@ class CitySegmentation(SegmentationDataset):
     @property
     def classes(self):
         """Category names."""
-        return ('road', 'sidewalk', 'building', 'wall', 'fence', 'pole', 'traffic light',
-                'traffic sign', 'vegetation', 'terrain', 'sky', 'person', 'rider', 'car',
-                'truck', 'bus', 'train', 'motorcycle', 'bicycle')
+        return ('circle')
+    
+def _get_mask(image_file, anno_file, , output_mask_file)
+    with fiona.open(anno_file, "r") as annotation_collection:
+        annotations = [feature["geometry"] for feature in annotation_collection]
+                    
+    with rasterio.open(image_file) as src:
+        out_image, out_transform = rasterio.mask.mask(src, annotations, all_touched=False, invert=True)
+        out_meta = src.meta
+        
+    with rasterio.open(output_mask_file, "w", **out_meta) as dest:
+        dest.write(out_image)
 
+    with rasterio.open(output_mask_file) as src:
+        out_image, out_transform = rasterio.mask.mask(src, annotations, all_touched=False, nodata=255, invert=False)
+        out_meta = src.meta
 
-def _get_dataset_pairs(img_folder, mask_folder, split='train'):
-    def get_path_pairs(img_folder, mask_folder):
-        img_paths = []
-        mask_paths = []
-        for root, dirs, _ in os.walk(img_folder):
+        out_meta.update({"driver": "GTiff",
+                     "height": out_image.shape[1],
+                     "width": out_image.shape[2],
+                     "transform": out_transform})
+
+    with rasterio.open(output_mask_file, "w", **out_meta) as dest:
+        dest.write(out_image)
+
+def _get_masks(data_folder, output_path='masks/')
+    for root, dirs, _ in os.walk(data_folder):
             for dir in dirs:
                 foldername = os.path.basename(dir)
-                imgpath = os.path.join(img_folder, dir, foldername+'_PAN.tif')
-                maskpath = os.path.join(mask_folder, dir, foldername+'_mask.tif')
+                image_path = os.path.join(data_folder, dir, foldername+'_PAN.tif')
+                anno_path = os.path.join(data_folder, dir, foldername+'_anno.geojson')
+                this._get_mask(image_path, anno_path, output_path+foldername+'_mask.tif')
+
+def _get_dataset_pairs(data_folder, mask_folder, split='train'):
+    def get_path_pairs(data_folder, mask_folder, random_seed=5):
+        img_paths = []
+        mask_paths = []
+        for root, dirs, _ in os.walk(data_folder):
+            for dir in dirs:
+                foldername = os.path.basename(dir)
+                imgpath = os.path.join(data_folder, dir, foldername+'_PAN.tif')
+                maskpath = os.path.join(mask_folder, foldername+'_mask.tif')
                 if os.path.isfile(imgpath) and os.path.isfile(maskpath):
                     img_paths.append(imgpath)
                     mask_paths.append(maskpath)
                 else:
                     logging.info('cannot find the mask or image:', imgpath, maskpath)
-        logging.info('Found {} images in the folder {}'.format(len(img_paths), img_folder))
+        logging.info('Found {} images in the folder {}'.format(len(img_paths), data_folder))
         return img_paths, mask_paths
-
-    if split in ('train', 'val'):
-        img_folder = os.path.join(folder, 'leftImg8bit/' + split)
-        mask_folder = os.path.join(folder, 'gtFine/' + split)
-        img_paths, mask_paths = get_path_pairs(img_folder, mask_folder)
-        return img_paths, mask_paths
-    else:
-        assert split == 'trainval'
-        logging.info('trainval set')
-        train_img_folder = os.path.join(folder, 'leftImg8bit/train')
-        train_mask_folder = os.path.join(folder, 'gtFine/train')
-        val_img_folder = os.path.join(folder, 'leftImg8bit/val')
-        val_mask_folder = os.path.join(folder, 'gtFine/val')
-        train_img_paths, train_mask_paths = get_path_pairs(train_img_folder, train_mask_folder)
-        val_img_paths, val_mask_paths = get_path_pairs(val_img_folder, val_mask_folder)
-        img_paths = train_img_paths + val_img_paths
-        mask_paths = train_mask_paths + val_mask_paths
+    
+    img_paths, mask_paths = get_path_pairs(data_folder, mask_folder)
+    np.random.seed(random_seed)
+    np.random.shuffle(img_paths)
+    np.random.shuffle(mask_paths)
+    
+    if split == 'train':
+        return img_paths[:-len(img_paths)//10], mask_paths[:-len(img_paths)//10]
+    elif: split == 'val':
+        return img_paths[-len(img_paths)//10:], mask_paths[-len(img_paths)//10:]
+    assert split == 'trainval'
     return img_paths, mask_paths
 
 
 if __name__ == '__main__':
-    dataset = CitySegmentation()
+    dataset = CustomSegmentation()
