@@ -1,5 +1,5 @@
 DATASET:
-    NAME: "cityscape"
+    NAME: "custom"
     MEAN: [0.449]
     STD: [0.226]
 TRAIN:
