@@ -37,7 +37,7 @@ class CustomSegmentation(SegmentationDataset):
     NUM_CLASS = 1
 
     def __init__(self, root='circle-finder-marathon-challenge-train-data', split='train', mode=None, transform=None, **kwargs):
-        super(CitySegmentation, self).__init__(root, split, mode, transform, **kwargs)
+        super(CustomSegmentation, self).__init__(root, split, mode, transform, **kwargs)
         assert os.path.exists(self.root)
         _get_masks(self.root)
         self.images, self.mask_paths = _get_dataset_pairs(self.root, self.split)
