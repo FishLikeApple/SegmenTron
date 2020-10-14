@@ -1,4 +1,4 @@
-"""Prepare Cityscapes dataset"""
+"""Prepare custom dataset"""
 import os
 import torch
 import numpy as np
@@ -89,7 +89,7 @@ class CustomSegmentation(SegmentationDataset):
         """Category names."""
         return ('circle')
     
-def _get_mask(image_file, anno_file, , output_mask_file)
+def _get_mask(image_file, anno_file, output_mask_file)
     with fiona.open(anno_file, "r") as annotation_collection:
         annotations = [feature["geometry"] for feature in annotation_collection]
                     
