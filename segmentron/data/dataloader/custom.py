@@ -1,4 +1,4 @@
-"""Prepare custom dataset"""
+"""Prepare Custom dataset"""
 import os
 import torch
 import numpy as np
@@ -89,7 +89,7 @@ class CustomSegmentation(SegmentationDataset):
         """Category names."""
         return ('circle')
     
-def _get_mask(image_file, anno_file, output_mask_file)
+def _get_mask(image_file, anno_file, output_mask_file):
     with fiona.open(anno_file, "r") as annotation_collection:
         annotations = [feature["geometry"] for feature in annotation_collection]
                     
@@ -112,7 +112,7 @@ def _get_mask(image_file, anno_file, output_mask_file)
     with rasterio.open(output_mask_file, "w", **out_meta) as dest:
         dest.write(out_image)
 
-def _get_masks(data_folder, output_path='masks/')
+def _get_masks(data_folder, output_path='masks/'):
     for root, dirs, _ in os.walk(data_folder):
             for dir in dirs:
                 foldername = os.path.basename(dir)
@@ -144,7 +144,7 @@ def _get_dataset_pairs(data_folder, mask_folder, split='train'):
     
     if split == 'train':
         return img_paths[:-len(img_paths)//10], mask_paths[:-len(img_paths)//10]
-    elif: split == 'val':
+    elif split == 'val':
         return img_paths[-len(img_paths)//10:], mask_paths[-len(img_paths)//10:]
     assert split == 'trainval'
     return img_paths, mask_paths
