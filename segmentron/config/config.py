@@ -8,11 +8,6 @@ import yaml
 import six
 import time
 
-import sys
-import os
-cur_path = os.path.abspath(os.path.dirname(__file__))
-print(sys.path)
-
 from ast import literal_eval
 
 class SegmentronConfig(dict):
