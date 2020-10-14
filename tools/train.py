@@ -28,6 +28,9 @@ from segmentron.utils.default_setup import default_setup
 from segmentron.utils.visualize import show_flops_params
 from segmentron.config import cfg
 
+for root, dirs, _ in os.walk('./'):
+    print(dirs)
+
 class Trainer(object):
     def __init__(self, args):
         self.args = args
