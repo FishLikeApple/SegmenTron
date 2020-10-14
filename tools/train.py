@@ -5,9 +5,7 @@ import os
 import sys
 
 cur_path = os.path.abspath(os.path.dirname(__file__))
-print(cur_path)
 root_path = os.path.split(cur_path)[0]
-print(root_path)
 sys.path.append(root_path)
 
 
