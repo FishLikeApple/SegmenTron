@@ -5,8 +5,11 @@ import os
 import sys
 
 cur_path = os.path.abspath(os.path.dirname(__file__))
+print(cur_path)
 root_path = os.path.split(cur_path)[0]
+print(root_path)
 sys.path.append(root_path)
+
 
 import logging
 import torch
@@ -27,9 +30,6 @@ from segmentron.utils.options import parse_args
 from segmentron.utils.default_setup import default_setup
 from segmentron.utils.visualize import show_flops_params
 from segmentron.config import cfg
-
-for root, dirs, _ in os.walk('./'):
-    print(dirs)
 
 class Trainer(object):
     def __init__(self, args):
