@@ -23,6 +23,7 @@ class FastSCNN(SegBaseModel):
         self.global_feature_extractor = GlobalFeatureExtractor(64, [64, 96, 128], 128, 6, [3, 3, 3],
                                                                norm_layer=self.norm_layer)
         self.feature_fusion = FeatureFusionModule(64, 128, 128, norm_layer=self.norm_layer)
+        print("self.nclass:", self.nclass)
         self.classifier = Classifer(128, self.nclass, norm_layer=self.norm_layer)
 
         decoder_list = ['learning_to_downsample', 'global_feature_extractor',
