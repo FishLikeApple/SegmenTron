@@ -39,7 +39,7 @@ class CustomSegmentation(SegmentationDataset):
     """
     NUM_CLASS = 1
 
-    def __init__(self, root='/kaggle/input/circle-finder-marathon-challenge-train-data', split='train', mode=None, transform=None, **kwargs):
+    def __init__(self, root='/kaggle/input/circle-finder-marathon-challenge-train-data/train', split='train', mode=None, transform=None, **kwargs):
         super(CustomSegmentation, self).__init__(root, split, mode, transform, **kwargs)
         self.root = root
         print(self.root)
