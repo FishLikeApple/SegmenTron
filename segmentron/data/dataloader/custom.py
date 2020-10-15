@@ -38,13 +38,15 @@ class CustomSegmentation(SegmentationDataset):
     >>>     num_workers=4)
     """
     NUM_CLASS = 1
+    TRAIN_PATH = '/kaggle/input/circle-finder-marathon-challenge-train-data/train'
+    MASKS_PATH = 'masks'
 
-    def __init__(self, root='/kaggle/input/circle-finder-marathon-challenge-train-data/train', split='train', mode=None, transform=None, **kwargs):
+    def __init__(self, root=TRAIN_PATH, split='train', mode=None, transform=None, **kwargs):
         super(CustomSegmentation, self).__init__(root, split, mode, transform, **kwargs)
         self.root = root
         assert os.path.exists(self.root)
         _get_masks(self.root)
-        self.images, self.mask_paths = _get_dataset_pairs(self.root, self.split)
+        self.images, self.mask_paths = _get_dataset_pairs(self.root, MASKS_PATH, self.split)
         assert (len(self.images) == len(self.mask_paths))
         if len(self.images) == 0:
             raise RuntimeError("Found 0 images in subfolders of:" + root + "\n")
