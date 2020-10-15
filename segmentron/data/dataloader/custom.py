@@ -42,7 +42,6 @@ class CustomSegmentation(SegmentationDataset):
     def __init__(self, root='/kaggle/input/circle-finder-marathon-challenge-train-data/train', split='train', mode=None, transform=None, **kwargs):
         super(CustomSegmentation, self).__init__(root, split, mode, transform, **kwargs)
         self.root = root
-        print(self.root)
         assert os.path.exists(self.root)
         _get_masks(self.root)
         self.images, self.mask_paths = _get_dataset_pairs(self.root, self.split)
