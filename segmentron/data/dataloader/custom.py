@@ -139,8 +139,9 @@ def _get_dataset_pairs(data_folder, mask_folder, split='train'):
                 if os.path.isfile(imgpath) and os.path.isfile(maskpath):
                     img_paths.append(imgpath)
                     mask_paths.append(maskpath)
+                    print("pair "+foldername+" is done.")
                 else:
-                    logging.info('cannot find the mask or image:', imgpath, maskpath)
+                    print('cannot find the mask or image:', imgpath, maskpath)
         logging.info('Found {} images in the folder {}'.format(len(img_paths), data_folder))
         return img_paths, mask_paths
     
