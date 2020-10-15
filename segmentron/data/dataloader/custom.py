@@ -120,7 +120,7 @@ def _get_masks(data_folder, output_path='masks/'):
                 foldername = os.path.basename(dir)
                 image_path = os.path.join(data_folder, dir, foldername+'_PAN.tif')
                 anno_path = os.path.join(data_folder, dir, foldername+'_anno.geojson')
-                this._get_mask(image_path, anno_path, output_path+foldername+'_mask.tif')
+                _get_mask(image_path, anno_path, output_path+foldername+'_mask.tif')
 
 def _get_dataset_pairs(data_folder, mask_folder, split='train'):
     def get_path_pairs(data_folder, mask_folder, random_seed=5):
