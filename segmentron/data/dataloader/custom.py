@@ -40,7 +40,7 @@ class CustomSegmentation(SegmentationDataset):
     >>>     trainset, 4, shuffle=True,
     >>>     num_workers=4)
     """
-    NUM_CLASS = MASK_PATH
+    NUM_CLASS = NUM_CLASS
 
     def __init__(self, root=TRAIN_PATH, split='train', mode=None, transform=None, **kwargs):
         super(CustomSegmentation, self).__init__(root, split, mode, transform, **kwargs)
