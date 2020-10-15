@@ -15,8 +15,6 @@ class SegmentationDataset(object):
 
     def __init__(self, root, split, mode, transform, base_size=520, crop_size=480):
         super(SegmentationDataset, self).__init__()
-        print("cfg.ROOT_PATH: ", cfg.ROOT_PATH)
-        print("root: ", root)
         self.root = os.path.join(cfg.ROOT_PATH, root)
         self.transform = transform
         self.split = split
