@@ -3,6 +3,9 @@ import os
 import torch
 import numpy as np
 import logging
+import rasterio
+import rasterio.mask
+import fiona
 
 from PIL import Image
 from .seg_data_base import SegmentationDataset
