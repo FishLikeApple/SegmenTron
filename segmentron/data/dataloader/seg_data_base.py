@@ -72,7 +72,9 @@ class SegmentationDataset(object):
         if cfg.AUG.MIRROR and random.random() < 0.5:
             img = img.transpose(Image.FLIP_LEFT_RIGHT)
             mask = mask.transpose(Image.FLIP_LEFT_RIGHT)
-        crop_size = self.crop_size
+        crop_size = img.size
+        crop_size[0] *= self.crop_size[0]
+        crop_size[1] *= self.crop_size[1]
         # random scale (short edge)
         short_size = random.randint(int(self.base_size * 0.5), int(self.base_size * 2.0))
         w, h = img.size
