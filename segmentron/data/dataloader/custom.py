@@ -127,6 +127,7 @@ def _get_masks(data_folder, output_path='masks/'):
                 print("mask "+foldername+" is done.")
 
 def _get_dataset_pairs(data_folder, mask_folder, split='train'):
+    print("start getting dataset pairs...")
     def get_path_pairs(data_folder, mask_folder, random_seed=5):
         img_paths = []
         mask_paths = []
