@@ -8,7 +8,7 @@ cfg.SEED = 1024
 # train time stamp, auto generate, do not need to set
 cfg.TIME_STAMP = ''
 # root path
-cfg.ROOT_PATH = ''
+cfg.ROOT_PATH = '../input'
 # model phase ['train', 'test']
 cfg.PHASE = 'train'
 
