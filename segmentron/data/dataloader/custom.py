@@ -128,9 +128,9 @@ def _get_masks(data_folder, output_path='masks/'):
                 _get_mask(image_path, anno_path, output_path+foldername+'_mask.tif')
                 print("mask "+foldername+" is done.")
 
-def _get_dataset_pairs(data_folder, mask_folder, split='train'):
+def _get_dataset_pairs(data_folder, mask_folder, split='train', random_seed=5):
     print("start getting dataset pairs...")
-    def get_path_pairs(data_folder, mask_folder, random_seed=5):
+    def get_path_pairs(data_folder, mask_folder):
         img_paths = []
         mask_paths = []
         for root, dirs, _ in os.walk(data_folder):
