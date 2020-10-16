@@ -134,7 +134,7 @@ class Trainer(object):
             images = images.to(self.device)
             targets = targets.to(self.device)
 
-            outputs = self.model(images)[0]
+            outputs = torch.squeeze(self.model(images)[0])
   
             print("outputs: ", outputs.size())
             print("targets: ", targets.size())
