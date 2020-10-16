@@ -136,7 +136,7 @@ class Trainer(object):
 
             outputs = self.model(images)
             for output in outputs:
-                print("output: ", np.array(output).shape)
+                print("output: ", output.size())
             print(list(outputs.size()))
             print(len(targets))
             print(np.array(images).shape)
