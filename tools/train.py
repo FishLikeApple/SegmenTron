@@ -135,15 +135,7 @@ class Trainer(object):
             targets = targets.to(self.device)
 
             outputs = torch.cat(self.model(images), 1)
-            
-            for output in outputs:
-                print("output: ", output.size())
-
-            print(list(outputs.size()))
-            print(len(targets))
-            print(np.array(images).shape)
-            print(np.array(outputs).shape)
-            print(np.array(targets).shape)
+  
             loss_dict = self.criterion(outputs, targets)
 
             losses = sum(loss for loss in loss_dict.values())
