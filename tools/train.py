@@ -134,12 +134,11 @@ class Trainer(object):
             images = images.to(self.device)
             targets = targets.to(self.device)
 
-            outputs = self.model(images)
+            outputs = torch.cat(self.model(images), 1)
+            
             for output in outputs:
-                try:
-                    print("output: ", output.size())
-                except:
-                    print("output: ", np.array(output).shape)
+                print("output: ", output.size())
+
             print(list(outputs.size()))
             print(len(targets))
             print(np.array(images).shape)
