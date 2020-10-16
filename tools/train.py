@@ -3,6 +3,7 @@ import copy
 import datetime
 import os
 import sys
+import numpy as np
 
 cur_path = os.path.abspath(os.path.dirname(__file__))
 root_path = os.path.split(cur_path)[0]
@@ -134,6 +135,8 @@ class Trainer(object):
             targets = targets.to(self.device)
 
             outputs = self.model(images)
+            print(len(outputs))
+            print(len(targets))
             print(np.array(outputs).shape)
             print(np.array(targets).shape)
             loss_dict = self.criterion(outputs, targets)
