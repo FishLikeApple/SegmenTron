@@ -45,7 +45,7 @@ class SegmentationDataset(object):
         return torchvision.transforms.ColorJitter(*color_jitter)
 
     def _val_sync_transform(self, img, mask):
-        outsize = (round(img.size[0]*self.crop_size[0]), round(img.size[1]*self.crop_size[1]))
+        outsize = self.crop_size
         short_size = min(outsize)
         w, h = img.size
         if w > h:
@@ -72,7 +72,7 @@ class SegmentationDataset(object):
         if cfg.AUG.MIRROR and random.random() < 0.5:
             img = img.transpose(Image.FLIP_LEFT_RIGHT)
             mask = mask.transpose(Image.FLIP_LEFT_RIGHT)
-        crop_size = (round(img.size[0]*self.crop_size[0]), round(img.size[1]*self.crop_size[1]))
+        crop_size = self.crop_size
         # random scale (short edge)
         short_size = random.randint(int(self.base_size * 0.5), int(self.base_size * 2.0))
         w, h = img.size
