@@ -138,8 +138,7 @@ class Trainer(object):
   
             if list(outputs[0].size())[1] == 1:
                 targets = torch.unsqueeze(targets, 1)
-            print("outputs: ", outputs.size())
-            print("targets: ", targets.size())
+            
             loss_dict = self.criterion(outputs, targets)
 
             losses = sum(loss for loss in loss_dict.values())
