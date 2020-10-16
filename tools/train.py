@@ -135,8 +135,10 @@ class Trainer(object):
             targets = targets.to(self.device)
 
             outputs = self.model(images)
+            print(outputs)
             print(len(outputs))
             print(len(targets))
+            print(np.array(images).shape)
             print(np.array(outputs).shape)
             print(np.array(targets).shape)
             loss_dict = self.criterion(outputs, targets)
