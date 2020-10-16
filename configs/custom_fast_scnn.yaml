@@ -1,7 +1,7 @@
 DATASET:
     NAME: "custom"
-    MEAN: [0.449]
-    STD: [0.226]
+    MEAN: [0.449, 0.449, 0.449]
+    STD: [0.226, 0.226, 0.226]
 TRAIN:
     EPOCHS: 1000
     BATCH_SIZE: 12
