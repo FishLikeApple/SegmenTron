@@ -134,9 +134,10 @@ class Trainer(object):
             images = images.to(self.device)
             targets = targets.to(self.device)
 
-            outputs = list(self.model(images))
-            outputs = [torch.squeeze(output) for output in outputs]
-            outputs = tuple(outputs)
+            outputs = self.model(images)
+            #outputs = list(self.model(images))
+            #outputs = [torch.squeeze(output) for output in outputs]
+            #outputs = tuple(outputs)
     
             loss_dict = self.criterion(outputs, targets)
 
