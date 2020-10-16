@@ -135,7 +135,8 @@ class Trainer(object):
             targets = targets.to(self.device)
 
             outputs = self.model(images)
-            print(outputs)
+            for output in outputs:
+                print("output: ", output)
             print(len(outputs))
             print(len(targets))
             print(np.array(images).shape)
