@@ -134,7 +134,7 @@ class Trainer(object):
             images = images.to(self.device)
             targets = targets.to(self.device)
 
-            outputs = torch.cat(self.model(images), 1)
+            outputs = self.model(images)[0]
   
             print("outputs: ", outputs.size())
             print("targets: ", targets.size())
