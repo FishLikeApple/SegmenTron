@@ -136,6 +136,8 @@ class Trainer(object):
 
             outputs = torch.cat(self.model(images), 1)
   
+            print("outputs: ", outputs.size())
+            print("targets: ", targets.size())
             loss_dict = self.criterion(outputs, targets)
 
             losses = sum(loss for loss in loss_dict.values())
