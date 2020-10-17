@@ -3,15 +3,15 @@ DATASET:
     MEAN: [0.449, 0.449, 0.449]
     STD: [0.226, 0.226, 0.226]
 TRAIN:
-    EPOCHS: 1000
+    EPOCHS: 100
     BATCH_SIZE: 12
-    CROP_SIZE: (768, 768)
+    CROP_SIZE: (512, 512)
 TEST:
     BATCH_SIZE: 4
     TEST_MODEL_PATH: 'runs/checkpoints/fast_scnn__cityscape_2019-11-19-02-02/best_model.pth'
 
 SOLVER:
-    LR: 0.045
+    LR: 0.3
     DECODER_LR_FACTOR: 1.0
     WEIGHT_DECAY: 4e-5
     AUX: True
