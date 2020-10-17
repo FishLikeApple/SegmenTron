@@ -10,7 +10,7 @@ import fiona
 from PIL import Image
 from .seg_data_base import SegmentationDataset
 
-NUM_CLASS = 1
+NUM_CLASS = 2
 TRAIN_PATH = '/kaggle/input/circle-finder-marathon-challenge-train-data/train'
 MASK_PATH = 'masks'
 
