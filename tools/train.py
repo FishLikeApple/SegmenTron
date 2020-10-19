@@ -30,6 +30,8 @@ from segmentron.utils.default_setup import default_setup
 from segmentron.utils.visualize import show_flops_params
 from segmentron.config import cfg
 
+from PIL import Image
+
 class Trainer(object):
     def __init__(self, args):
         self.args = args
@@ -133,7 +135,16 @@ class Trainer(object):
 
             images = images.to(self.device)
             targets = targets.to(self.device)
-
+            
+            image_arrays =  np.array(images)
+            target_arrays =  np.array(targets)
+            for i in range(image_arrays.shape(0)):
+                im = Image.fromarray(image_arrays[i])
+                im.save("image{}.jpeg".format(i))
+                im = Image.fromarray(target_arrays[i])
+                im.save("mask{}.jpeg".format(i))
+            a = 1/0
+            
             outputs = self.model(images)
             #outputs = list(self.model(images))
             #outputs = [torch.squeeze(output) for output in outputs]
