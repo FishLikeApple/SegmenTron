@@ -138,7 +138,7 @@ class Trainer(object):
             
             image_arrays =  np.array(images)
             target_arrays =  np.array(targets)
-            for i in range(image_arrays.shape(0)):
+            for i in range(image_arrays.shape[0]):
                 im = Image.fromarray(image_arrays[i])
                 im.save("image{}.jpeg".format(i))
                 im = Image.fromarray(target_arrays[i])
