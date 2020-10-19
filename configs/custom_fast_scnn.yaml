@@ -6,6 +6,7 @@ TRAIN:
     EPOCHS: 100
     BATCH_SIZE: 12
     CROP_SIZE: (512, 512)
+    BASE_SIZE: 512
 TEST:
     BATCH_SIZE: 4
     TEST_MODEL_PATH: 'runs/checkpoints/fast_scnn__cityscape_2019-11-19-02-02/best_model.pth'
