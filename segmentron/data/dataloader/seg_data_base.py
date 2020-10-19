@@ -45,23 +45,30 @@ class SegmentationDataset(object):
         return torchvision.transforms.ColorJitter(*color_jitter)
 
     def _val_sync_transform(self, img, mask):
-        outsize = self.crop_size
-        short_size = min(outsize)
+        crop_size = self.crop_size
+
+        short_size = base_size
         w, h = img.size
-        if w > h:
-            oh = short_size
-            ow = int(1.0 * w * oh / h)
-        else:
+        if h > w:
             ow = short_size
             oh = int(1.0 * h * ow / w)
+        else:
+            oh = short_size
+            ow = int(1.0 * w * oh / h)
         img = img.resize((ow, oh), Image.BILINEAR)
         mask = mask.resize((ow, oh), Image.NEAREST)
-        # center crop
+        # pad crop
+        if short_size < min(crop_size):
+            padh = crop_size[0] - oh if oh < crop_size[0] else 0
+            padw = crop_size[1] - ow if ow < crop_size[1] else 0
+            img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
+            mask = ImageOps.expand(mask, border=(0, 0, padw, padh), fill=-1)
+        # random crop crop_size
         w, h = img.size
-        x1 = int(round((w - outsize[1]) / 2.))
-        y1 = int(round((h - outsize[0]) / 2.))
-        img = img.crop((x1, y1, x1 + outsize[1], y1 + outsize[0]))
-        mask = mask.crop((x1, y1, x1 + outsize[1], y1 + outsize[0]))
+        x1 = random.randint(0, w - crop_size[1])
+        y1 = random.randint(0, h - crop_size[0])
+        img = img.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
+        mask = mask.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
 
         # final transform
         img, mask = self._img_transform(img), self._mask_transform(mask)
