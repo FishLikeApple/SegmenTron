@@ -81,7 +81,7 @@ class SegmentationDataset(object):
             mask = mask.transpose(Image.FLIP_LEFT_RIGHT)
         crop_size = self.crop_size
         # random scale (short edge)
-        short_size = random.randint(int(self.base_size * 0.5), int(self.base_size * 2.0))
+        short_size = random.randint(int(self.base_size * 0.9), int(self.base_size * 1.1))
         w, h = img.size
         if h > w:
             ow = short_size
