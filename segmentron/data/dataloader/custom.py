@@ -46,7 +46,7 @@ class CustomSegmentation(SegmentationDataset):
         super(CustomSegmentation, self).__init__(root, split, mode, transform, **kwargs)
         self.root = root
         assert os.path.exists(self.root)
-        #_get_masks(self.root)
+        _get_masks(self.root)
         self.images, self.mask_paths = _get_dataset_pairs(self.root, MASK_PATH, self.split)
         assert (len(self.images) == len(self.mask_paths))
         if len(self.images) == 0:
