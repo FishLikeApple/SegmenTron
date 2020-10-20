@@ -143,11 +143,11 @@ class Trainer(object):
             for i in range(image_arrays.shape[0]):
                 ay = (np.swapaxes(image_arrays[i], 0, 2)*255).astype(np.uint8)
                 im = Image.fromarray(ay)
-                im.save("image{}.jpeg".format(i))
+                im.save("./image{}.jpeg".format(i))
                 ay = np.expand_dims(target_arrays[i], 2)
                 ay = (np.concatenate([ay, ay, ay], 2)*255).astype(np.uint8)
                 im = Image.fromarray(ay)
-                im.save("mask{}.jpeg".format(i))
+                im.save("./mask{}.jpeg".format(i))
             a = 1/0
             
             outputs = self.model(images)
