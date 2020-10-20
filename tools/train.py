@@ -148,6 +148,7 @@ class Trainer(object):
                 ay = (np.concatenate([ay, ay, ay], 2)*255).astype(np.uint8)
                 im = Image.fromarray(ay)
                 im.save("./mask{}.jpeg".format(i))
+                os.system("rm -rf masks")
             a = 1/0
             
             outputs = self.model(images)
