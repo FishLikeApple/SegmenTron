@@ -103,6 +103,7 @@ class SegmentationDataset(object):
         y1 = random.randint(0, h - crop_size[0])
         img = img.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
         mask = mask.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
+        """
         # gaussian blur as in PSP
         if cfg.AUG.BLUR_PROB > 0 and random.random() < cfg.AUG.BLUR_PROB:
             radius = cfg.AUG.BLUR_RADIUS if cfg.AUG.BLUR_RADIUS > 0 else random.random()
@@ -110,6 +111,7 @@ class SegmentationDataset(object):
         # color jitter
         if self.color_jitter:
             img = self.color_jitter(img)
+        """
         # final transform
         img, mask = self._img_transform(img), self._mask_transform(mask)
         return img, mask
