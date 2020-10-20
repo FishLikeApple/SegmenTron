@@ -68,6 +68,8 @@ class CustomSegmentation(SegmentationDataset):
             return img, os.path.basename(self.images[index])
         mask = Image.open(self.mask_paths[index])
         # synchrosized transform
+        img.save("./image_o.jpeg")
+        mask.save("./mask_o.jpeg")
         if self.mode == 'train':
             img, mask = self._sync_transform(img, mask)
         elif self.mode == 'val':
