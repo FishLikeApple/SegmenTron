@@ -75,6 +75,8 @@ class SegmentationDataset(object):
         return img, mask
 
     def _sync_transform(self, img, mask):
+        print("img: ", np.array(img))
+        print("mask: ", np.array(mask))
         # random mirror
         if cfg.AUG.MIRROR and random.random() < 0.5:
             img = img.transpose(Image.FLIP_LEFT_RIGHT)
