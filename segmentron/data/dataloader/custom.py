@@ -58,7 +58,7 @@ class CustomSegmentation(SegmentationDataset):
         values = np.unique(mask)
         for value in values:
             assert (value in self._key)
-        return mask // 255
+        return 1 - (mask//255)
 
     def __getitem__(self, index):
         print("image: ", self.images[index])
