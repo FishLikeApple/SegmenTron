@@ -63,7 +63,7 @@ class CustomSegmentation(SegmentationDataset):
     def __getitem__(self, index):
         print("image: ", self.images[index])
         print("mask: ", self.mask_paths[index])
-        img = Image.open(self.images[index])
+        img = Image.open(self.images[index]).convert('RGB')
         if self.mode == 'test':
             if self.transform is not None:
                 img = self.transform(img)
