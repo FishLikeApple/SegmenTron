@@ -153,14 +153,10 @@ def _get_dataset_pairs(data_folder, mask_folder, split='train', random_seed=5):
         return img_paths, mask_paths
     
     img_paths, mask_paths = get_path_pairs(data_folder, mask_folder)
-    print("img_paths: ", img_paths[0:3])
-    print("mask_paths: ", mask_paths[0:3])
     np.random.seed(random_seed)
     np.random.shuffle(img_paths)
     np.random.seed(random_seed)
     np.random.shuffle(mask_paths)
-    print("img_paths_f: ", img_paths[0:3])
-    print("mask_paths_f: ", mask_paths[0:3])
     
     if split == 'train':
         return img_paths[:-len(img_paths)//10], mask_paths[:-len(img_paths)//10]
