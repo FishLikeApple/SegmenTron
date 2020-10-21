@@ -96,7 +96,7 @@ class SegmentationDataset(object):
             padh = crop_size[0] - oh if oh < crop_size[0] else 0
             padw = crop_size[1] - ow if ow < crop_size[1] else 0
             img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
-            mask = ImageOps.expand(mask, border=(0, 0, padw, padh), fill=-1)
+            mask = ImageOps.expand(mask, border=(0, 0, padw, padh), fill=0)
         # random crop crop_size
         w, h = img.size
         x1 = random.randint(0, w - crop_size[1])
