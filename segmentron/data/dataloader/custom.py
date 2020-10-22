@@ -80,7 +80,7 @@ class CustomSegmentation(SegmentationDataset):
         img = img / 255.0
         ay = (img*255).astype('uint8')
         im = Image.fromarray(ay)
-        im.save("./image2.jpeg")
+        im.save("./image2222.jpeg")
         # general resize, normalize and toTensor
         if self.transform is not None:
             img = self.transform(img)
