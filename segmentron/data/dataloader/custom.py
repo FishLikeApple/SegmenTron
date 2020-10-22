@@ -70,8 +70,6 @@ class CustomSegmentation(SegmentationDataset):
             return img, os.path.basename(self.images[index])
         mask = Image.open(self.mask_paths[index])
         # synchrosized transform
-        img.save("./image_o.jpeg")
-        mask.save("./mask_o.jpeg")
         if self.mode == 'train':
             img, mask = self._sync_transform(img, mask)
         elif self.mode == 'val':
@@ -80,6 +78,9 @@ class CustomSegmentation(SegmentationDataset):
             assert self.mode == 'testval'
             img, mask = self._img_transform(img), self._mask_transform(mask)
         img = img / 255.0
+        ay = (np.swapaxes(img, 0, 2)*255).astype('uint8')
+        im = Image.fromarray(ay)
+        im.save("./image2.jpeg")
         # general resize, normalize and toTensor
         if self.transform is not None:
             img = self.transform(img)
