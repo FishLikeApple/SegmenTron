@@ -75,13 +75,14 @@ class SegmentationDataset(object):
         return img, mask
 
     def _sync_transform(self, img, mask):
-        print("img: ", np.array(img))
+        print("img1: ", np.array(img))
         print("mask: ", np.array(mask))
         # random mirror
         if cfg.AUG.MIRROR and random.random() < 0.5:
             img = img.transpose(Image.FLIP_LEFT_RIGHT)
             mask = mask.transpose(Image.FLIP_LEFT_RIGHT)
         crop_size = self.crop_size
+        print("img2: ", np.array(img))
         # random scale (short edge)
         short_size = random.randint(int(self.base_size * 0.9), int(self.base_size * 1.1))
         w, h = img.size
@@ -93,18 +94,21 @@ class SegmentationDataset(object):
             ow = int(1.0 * w * oh / h)
         img = img.resize((ow, oh), Image.BILINEAR)
         mask = mask.resize((ow, oh), Image.NEAREST)
+        print("img3: ", np.array(img))
         # pad crop
         if short_size < min(crop_size):
             padh = crop_size[0] - oh if oh < crop_size[0] else 0
             padw = crop_size[1] - ow if ow < crop_size[1] else 0
             img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
             mask = ImageOps.expand(mask, border=(0, 0, padw, padh), fill=0)
+        print("img4: ", np.array(img))
         # random crop crop_size
         w, h = img.size
         x1 = random.randint(0, w - crop_size[1])
         y1 = random.randint(0, h - crop_size[0])
         img = img.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
         mask = mask.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
+        print("img5: ", np.array(img))
         """
         # gaussian blur as in PSP
         if cfg.AUG.BLUR_PROB > 0 and random.random() < cfg.AUG.BLUR_PROB:
@@ -116,6 +120,7 @@ class SegmentationDataset(object):
         """
         # final transform
         img, mask = self._img_transform(img), self._mask_transform(mask)
+        print("img6: ", np.array(img))
         return img, mask
 
     def _img_transform(self, img):
