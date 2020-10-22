@@ -39,8 +39,8 @@ class Trainer(object):
 
         # image transform
         input_transform = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize(cfg.DATASET.MEAN, cfg.DATASET.STD),
+            #transforms.ToTensor(),
+            #transforms.Normalize(cfg.DATASET.MEAN, cfg.DATASET.STD),
         ])
         # dataset and dataloader
         data_kwargs = {'transform': input_transform, 'base_size': cfg.TRAIN.BASE_SIZE,
