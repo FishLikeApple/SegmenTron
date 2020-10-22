@@ -141,11 +141,11 @@ class Trainer(object):
             print(image_arrays.shape)
             print(target_arrays.shape)
             for i in range(image_arrays.shape[0]):
-                ay = (np.swapaxes(image_arrays[i], 0, 2)).astype('uint8')
+                ay = (np.swapaxes(image_arrays[i], 0, 2)*255).astype('uint8')
                 im = Image.fromarray(ay)
                 im.save("./image{}.jpeg".format(i))
                 _ay = np.expand_dims(target_arrays[i], 2)
-                ay = (np.concatenate([_ay, _ay, _ay], 2)).astype('uint8')
+                ay = (np.concatenate([_ay, _ay, _ay], 2)*255).astype('uint8')
                 im = Image.fromarray(ay)
                 im.save("./mask{}.jpeg".format(i))
                 os.system("rm -rf masks")
