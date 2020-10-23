@@ -79,7 +79,7 @@ class CustomSegmentation(SegmentationDataset):
         ay = (img*255).astype('uint8')
         im = Image.fromarray(ay)
         im.save("./image{}.jpeg".format(os.path.basename(self.images[index])))
-        _ay = np.expand_dims(target_arrays[i], 2)
+        _ay = np.expand_dims(mask, 2)
         ay = (np.concatenate([_ay, _ay, _ay], 2)*255).astype('uint8')
         im = Image.fromarray(ay)
         im.save("./mask{}.jpeg".format(os.path.basename(self.images[index])))
