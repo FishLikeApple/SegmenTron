@@ -58,11 +58,9 @@ class CustomSegmentation(SegmentationDataset):
         values = np.unique(mask)
         for value in values:
             assert (value in self._key)
-        return 1 - (mask//255)
+        return mask//255
 
     def __getitem__(self, index):
-        print("image: ", self.images[index])
-        print("mask: ", self.mask_paths[index])
         img = Image.open(self.images[index]).convert('RGB')
         if self.mode == 'test':
             if self.transform is not None:
@@ -81,6 +79,10 @@ class CustomSegmentation(SegmentationDataset):
         ay = (img*255).astype('uint8')
         im = Image.fromarray(ay)
         im.save("./image{}.jpeg".format(os.path.basename(self.images[index])))
+        _ay = np.expand_dims(target_arrays[i], 2)
+        ay = (np.concatenate([_ay, _ay, _ay], 2)*255).astype('uint8')
+        im = Image.fromarray(ay)
+        im.save("./mask{}.jpeg".format(os.path.basename(self.images[index])))
         # general resize, normalize and toTensor
         if self.transform is not None:
             img = self.transform(img)
