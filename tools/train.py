@@ -129,7 +129,7 @@ class Trainer(object):
 
         self.model.train()
         iteration = self.start_epoch * iters_per_epoch if self.start_epoch > 0 else 0
-        for (images, targets, _) in self.train_loader:
+        for (images, targets, ids) in self.train_loader:
             epoch = iteration // iters_per_epoch + 1
             iteration += 1
 
@@ -141,6 +141,7 @@ class Trainer(object):
             print(image_arrays.shape)
             print(target_arrays.shape)
             for i in range(image_arrays.shape[0]):
+                print(i, ids[i])
                 ay = (np.swapaxes(image_arrays[i], 0, 2)*255).astype('uint8')
                 im = Image.fromarray(ay)
                 im.save("./image{}.jpeg".format(i))
