@@ -75,8 +75,8 @@ class CustomSegmentation(SegmentationDataset):
         else:
             assert self.mode == 'testval'
             img, mask = self._img_transform(img), self._mask_transform(mask)
-        img = img / 255.0
-        ay = (img*255).astype('uint8')
+        #img = img / 255.0
+        ay = (img).astype('uint8')
         im = Image.fromarray(ay)
         im.save("./image{}.jpeg".format(os.path.basename(self.images[index])))
         _ay = np.expand_dims(mask, 2)
