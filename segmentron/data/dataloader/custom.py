@@ -76,6 +76,7 @@ class CustomSegmentation(SegmentationDataset):
             assert self.mode == 'testval'
             img, mask = self._img_transform(img), self._mask_transform(mask)
         #img = img / 255.0
+        '''
         ay = (img).astype('uint8')
         im = Image.fromarray(ay)
         im.save("./image{}.jpeg".format(os.path.basename(self.images[index])))
@@ -83,6 +84,7 @@ class CustomSegmentation(SegmentationDataset):
         ay = (np.concatenate([_ay, _ay, _ay], 2)*255).astype('uint8')
         im = Image.fromarray(ay)
         im.save("./mask{}.jpeg".format(os.path.basename(self.images[index])))
+        '''
         # general resize, normalize and toTensor
         if self.transform is not None:
             img = self.transform(img)
