@@ -47,7 +47,7 @@ class SegmentationDataset(object):
     def _val_sync_transform(self, img, mask):
         crop_size = self.crop_size
 
-        short_size = base_size
+        short_size = self.base_size
         w, h = img.size
         if h > w:
             ow = short_size
@@ -72,6 +72,8 @@ class SegmentationDataset(object):
 
         # final transform
         img, mask = self._img_transform(img), self._mask_transform(mask)
+        print("img.shape: ", img.shape)
+        print("mask.shape: ", mask.shape)
         return img, mask
 
     def _sync_transform(self, img, mask):
