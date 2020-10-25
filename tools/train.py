@@ -38,11 +38,11 @@ class Trainer(object):
         self.device = torch.device(args.device)
 
         # image transform
-        #input_transform = transforms.Compose([
-        #    transforms.ToTensor(),
+        input_transform = transforms.Compose([
+            transforms.ToTensor(),
         #    transforms.Normalize(cfg.DATASET.MEAN, cfg.DATASET.STD),
-        #])
-        input_transform = None
+        ])
+        #input_transform = None
         
         # dataset and dataloader
         data_kwargs = {'transform': input_transform, 'base_size': cfg.TRAIN.BASE_SIZE,
