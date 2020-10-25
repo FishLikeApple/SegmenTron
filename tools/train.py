@@ -138,9 +138,9 @@ class Trainer(object):
             images = images.to(self.device)
             targets = targets.to(self.device)
             
+            '''
             image_arrays =  np.array(images)
             target_arrays =  np.array(targets)
-            '''
             print(image_arrays.shape)
             print(target_arrays.shape)
             for i in range(image_arrays.shape[0]):
