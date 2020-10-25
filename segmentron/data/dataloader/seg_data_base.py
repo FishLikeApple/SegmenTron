@@ -72,8 +72,6 @@ class SegmentationDataset(object):
 
         # final transform
         img, mask = self._img_transform(img), self._mask_transform(mask)
-        print("img.shape: ", img.shape)
-        print("mask.shape: ", mask.shape)
         return img, mask
 
     def _sync_transform(self, img, mask):
