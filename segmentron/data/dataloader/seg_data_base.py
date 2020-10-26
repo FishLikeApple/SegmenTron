@@ -64,6 +64,21 @@ class SegmentationDataset(object):
             
         return img
     
+    def mask_reversion_transform(self, mask, target_size):
+        w, h = img.size
+            assert  (w == h)
+        if target_size[0] > target_size[1]:
+            ow = target_size[0]
+            oh = round(1.0 * w * ow / target_size[0])
+            mask = mask.resize((ow, oh), Image.NEAREST)
+            pad = oh
+            mask = mask.crop((0, pad1, ow, oh - pad2))
+        else:
+            oh = target_size[1]
+            ow = round(1.0 * target_size[0] * ow / target_size[1])
+            mask = mask.resize((ow, oh), Image.NEAREST)
+            mask = mask.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
+    
     def _val_sync_transform(self, img, mask):
         crop_size = self.crop_size
 
