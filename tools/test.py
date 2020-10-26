@@ -24,7 +24,7 @@ from segmentron.utils.options import parse_args
 from segmentron.utils.default_setup import default_setup
 
 
-class Evaluator(object):
+class tester(object):
     def __init__(self, args):
         self.args = args
         self.device = torch.device(args.device)
@@ -64,7 +64,7 @@ class Evaluator(object):
             if isinstance(m[1], nn.BatchNorm2d) or isinstance(m[1], nn.SyncBatchNorm):
                 setattr(m[1], attr, value)
 
-    def eval(self):
+    def test(self):
         self.metric.reset()
         self.model.eval()
         if self.args.distributed:
@@ -72,33 +72,15 @@ class Evaluator(object):
         else:
             model = self.model
 
-        logging.info("Start validation, Total sample: {:d}".format(len(self.val_loader)))
+        logging.info("Start test, Total sample: {:d}".format(len(self.val_loader)))
         import time
         time_start = time.time()
-        for i, (image, target, filename) in enumerate(self.val_loader):
+        for i, (image, filename) in enumerate(self.val_loader):
             image = image.to(self.device)
-            target = target.to(self.device)
 
             with torch.no_grad():
                 output = model.evaluate(image)
-
-            self.metric.update(output, target)
-            pixAcc, mIoU = self.metric.get()
-            logging.info("Sample: {:d}, validation pixAcc: {:.3f}, mIoU: {:.3f}".format(
-                i + 1, pixAcc * 100, mIoU * 100))
-
-        synchronize()
-        pixAcc, mIoU, category_iou = self.metric.get(return_category_iou=True)
-        logging.info('Eval use time: {:.3f} second'.format(time.time() - time_start))
-        logging.info('End validation pixAcc: {:.3f}, mIoU: {:.3f}'.format(
-                pixAcc * 100, mIoU * 100))
-
-        headers = ['class id', 'class name', 'iou']
-        table = []
-        for i, cls_name in enumerate(self.classes):
-            table.append([cls_name, category_iou[i]])
-        logging.info('Category iou: \n {}'.format(tabulate(table, headers, tablefmt='grid', showindex="always",
-                                                           numalign='center', stralign='center')))
+        output
 
 
 if __name__ == '__main__':
