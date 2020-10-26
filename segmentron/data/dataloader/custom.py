@@ -7,12 +7,15 @@ import rasterio
 import rasterio.mask
 import fiona
 
+from ...config import cfg
+
 from PIL import Image
 from .seg_data_base import SegmentationDataset
 
-NUM_CLASS = 2
-TRAIN_PATH = '/kaggle/input/circle-finder-marathon-challenge-train-data/train'
+NUM_CLASS = cfg.DATASET.NUM_CLASS
+TRAIN_PATH = cfg.DATASET.TRAIN_PATH
 MASK_PATH = 'masks'
+TEST_PATH = cfg.DATASET.TEST_PATH
 
 class CustomSegmentation(SegmentationDataset):
     """Custom Semantic Segmentation Dataset.
@@ -42,13 +45,18 @@ class CustomSegmentation(SegmentationDataset):
     """
     NUM_CLASS = NUM_CLASS
 
-    def __init__(self, root=TRAIN_PATH, split='train', mode=None, transform=None, **kwargs):
+    def __init__(self, train_root=TRAIN_PATH, test_root=TEST_PATH, split='train', mode=None, transform=None, **kwargs):
         super(CustomSegmentation, self).__init__(root, split, mode, transform, **kwargs)
-        self.root = root
-        assert os.path.exists(self.root)
-        _get_masks(self.root)
-        self.images, self.mask_paths = _get_dataset_pairs(self.root, MASK_PATH, self.split)
-        assert (len(self.images) == len(self.mask_paths))
+        if self.mode == "test":
+            self.root = test_root
+            assert os.path.exists(self.root)
+            self.images = _get_test_dataset_items(self.root)
+        else:
+            self.root = train_root
+            assert os.path.exists(self.root)
+            _get_masks(self.root)
+            self.images, self.mask_paths = _get_dataset_pairs(self.root, MASK_PATH, self.split)
+            assert (len(self.images) == len(self.mask_paths))
         if len(self.images) == 0:
             raise RuntimeError("Found 0 images in subfolders of:" + root + "\n")
         self._key = np.array([0, 255])
@@ -172,6 +180,20 @@ def _get_dataset_pairs(data_folder, mask_folder, split='train', random_seed=6):
     assert split == 'trainval'
     return img_paths, mask_paths
 
+def _get_test_dataset_items(data_folder):
+    print("start getting test items...")
+    img_paths = []
+    for root, dirs, _ in os.walk(data_folder):
+        for dir in dirs:
+            foldername = os.path.basename(dir)
+            imgpath = os.path.join(data_folder, dir, foldername+'_PAN.tif')
+            if os.path.isfile(imgpath):
+                img_paths.append(imgpath)
+                print("pair "+foldername+" is done.")
+            else:
+                print('cannot find the image:', imgpath)
+    logging.info('Found {} images in the folder {}'.format(len(img_paths), data_folder))
+    return img_paths
 
 if __name__ == '__main__':
     dataset = CustomSegmentation()
