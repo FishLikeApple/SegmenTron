@@ -2,6 +2,8 @@ DATASET:
     NAME: "custom"
     MEAN: [0.449, 0.449, 0.449]
     STD: [0.226, 0.226, 0.226]
+    TRAIN_PATH: '/kaggle/input/circle-finder-marathon-challenge-train-data/train'
+    TEST_PATH: '/kaggle/input/circle-finder-marathon-challenge-test-data/test'
 TRAIN:
     EPOCHS: 100
     BATCH_SIZE: 12
