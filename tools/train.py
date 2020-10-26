@@ -155,7 +155,6 @@ class Trainer(object):
                 
             a = 1/0
             '''
-            os.system("rm -rf masks")
             
             outputs = self.model(images)
             #outputs = list(self.model(images))
@@ -250,3 +249,4 @@ if __name__ == '__main__':
     # create a trainer and start train
     trainer = Trainer(args)
     trainer.train()
+    os.system("rm -rf masks")
