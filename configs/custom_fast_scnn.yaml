@@ -4,6 +4,7 @@ DATASET:
     STD: [0.226, 0.226, 0.226]
     TRAIN_PATH: '/kaggle/input/circle-finder-marathon-challenge-train-data/train'
     TEST_PATH: '/kaggle/input/circle-finder-marathon-challenge-test-data/test'
+    NUM_CLASS: 2
 TRAIN:
     EPOCHS: 100
     BATCH_SIZE: 12
