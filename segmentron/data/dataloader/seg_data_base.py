@@ -43,7 +43,27 @@ class SegmentationDataset(object):
             # if it's a scalar, duplicate for brightness, contrast, and saturation, no hue
             color_jitter = (float(color_jitter),) * 3
         return torchvision.transforms.ColorJitter(*color_jitter)
+    
+    def _test_sync_transform(self, img):
+        crop_size = self.crop_size
 
+        short_size = self.base_size
+        w, h = img.size
+        if h > w:
+            ow = short_size
+            oh = int(1.0 * h * ow / w)
+        else:
+            oh = short_size
+            ow = int(1.0 * w * oh / h)
+        img = img.resize((ow, oh), Image.BILINEAR)
+        # pad crop
+        if short_size < min(crop_size):
+            padh = crop_size[0] - oh if oh < crop_size[0] else 0
+            padw = crop_size[1] - ow if ow < crop_size[1] else 0
+            img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
+            
+        return img
+    
     def _val_sync_transform(self, img, mask):
         crop_size = self.crop_size
 
