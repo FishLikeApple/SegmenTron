@@ -69,15 +69,22 @@ class SegmentationDataset(object):
             assert  (w == h)
         if target_size[0] > target_size[1]:
             ow = target_size[0]
-            oh = round(1.0 * w * ow / target_size[0])
+            oh = target_size[0]
             mask = mask.resize((ow, oh), Image.NEAREST)
-            pad = oh
-            mask = mask.crop((0, pad1, ow, oh - pad2))
+            pad = oh - target_size[1]
+            pad1 = pad // 2
+            pad2 = round(pad/2.0)
+            mask = mask.crop((0, pad1, ow, oh-pad2))
         else:
             oh = target_size[1]
-            ow = round(1.0 * target_size[0] * ow / target_size[1])
+            ow = target_size[1]
             mask = mask.resize((ow, oh), Image.NEAREST)
-            mask = mask.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
+            pad = ow - target_size[0]
+            pad1 = pad // 2
+            pad2 = round(pad/2.0)
+            mask = mask.crop((pad1, 0, ow-pad2, oh))
+            
+        return mask
     
     def _val_sync_transform(self, img, mask):
         crop_size = self.crop_size
