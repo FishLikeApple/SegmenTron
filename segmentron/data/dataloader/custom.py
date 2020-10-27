@@ -46,7 +46,7 @@ class CustomSegmentation(SegmentationDataset):
     NUM_CLASS = NUM_CLASS
 
     def __init__(self, train_root=TRAIN_PATH, test_root=TEST_PATH, split='train', mode=None, transform=None, **kwargs):
-        super(CustomSegmentation, self).__init__(root, split, mode, transform, **kwargs)
+        super(CustomSegmentation, self).__init__(train_root, split, mode, transform, **kwargs)
         if self.mode == "test":
             self.root = test_root
             assert os.path.exists(self.root)
