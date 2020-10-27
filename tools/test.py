@@ -65,8 +65,6 @@ class tester(object):
                 setattr(m[1], attr, value)
 
     def test(self):
-        self.metric.reset()
-        self.model.eval()
         if self.args.distributed:
             model = self.model.module
         else:
@@ -80,7 +78,8 @@ class tester(object):
 
             with torch.no_grad():
                 output = model.evaluate(image)
-        output
+            print(output)
+            a = 1/0
 
 
 if __name__ == '__main__':
@@ -93,5 +92,5 @@ if __name__ == '__main__':
 
     default_setup(args)
 
-    evaluator = Evaluator(args)
-    evaluator.eval()
+    evaluator = tester(args)
+    evaluator.test()
