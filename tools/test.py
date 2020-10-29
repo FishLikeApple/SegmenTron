@@ -84,11 +84,11 @@ class tester(object):
             with torch.no_grad():
                 output = model.evaluate(image)
 
-            pred = torch.argmax(output[0], 1).squeeze(0).cpu().data.numpy()
-            mask = get_color_pallete(pred, cfg.DATASET.NAME)
-            print(filename)
-            outname = filename + '.jpg'
-            mask.save(os.path.join(output, outname))
+            for i in range(len(filename)):
+                pred = torch.argmax(output[i], 1).squeeze(0).cpu().data.numpy()
+                mask = get_color_pallete(pred, cfg.DATASET.NAME)
+                outname = filename[i] + '.jpg'
+                mask.save(os.path.join(output, outname))
 
 
 if __name__ == '__main__':
