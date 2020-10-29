@@ -13,6 +13,7 @@ import torch.nn as nn
 import torch.utils.data as data
 import torch.nn.functional as F
 import time
+from PIL import Image
 
 from tabulate import tabulate
 from torchvision import transforms
@@ -87,8 +88,8 @@ class tester(object):
             for i in range(len(filename)):
                 print("output[i].size: ", output[i].data.numpy().shape)
                 pred = torch.argmax(output[i], 2).squeeze(0).cpu().data.numpy()
-                print("pred.shape: ", pred.shape)
-                mask = pred * 255
+                print(pred)
+                mask = Image.fromarray(pred*255)
                 outname = filename[i] + '.png'
                 mask.save(os.path.join('output', outname))
 
