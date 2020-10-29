@@ -1,6 +1,7 @@
 from .config import SegmentronConfig
 
 cfg = SegmentronConfig()
+print("cfg.DATASET: ", cfg.DATASET)
 
 ########################## basic set ###########################################
 # random seed
