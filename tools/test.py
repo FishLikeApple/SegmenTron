@@ -15,6 +15,7 @@ import torch.nn.functional as F
 import time
 from PIL import Image
 import numpy as np
+import rasterio
 
 from tabulate import tabulate
 from torchvision import transforms
