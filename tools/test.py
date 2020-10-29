@@ -91,9 +91,6 @@ class tester(object):
                 pred = torch.argmax(output[i], 0).squeeze(0).cpu().data.numpy()
                 mask = Image.fromarray((pred*255).astype('uint8'))
                 mask = self.val_dataset.mask_reversion_transform(mask, np.array(shape[i]))
-                print(np.array(shape[i]))
-                print(mask.size)
-                print('')
                 outname = filename[i] + '.png'
                 mask.save(os.path.join('output', outname))
 
