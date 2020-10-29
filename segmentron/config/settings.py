@@ -16,9 +16,9 @@ cfg.PHASE = 'train'
 # dataset name
 cfg.DATASET.NAME = ''
 # pixel mean
-cfg.DATASET.MEAN = [0.5, 0.5, 0.5]
+#cfg.DATASET.MEAN = [0.5, 0.5, 0.5]
 # pixel std
-cfg.DATASET.STD = [0.5, 0.5, 0.5]
+#cfg.DATASET.STD = [0.5, 0.5, 0.5]
 # dataset ignore index
 cfg.DATASET.IGNORE_INDEX = -1
 # workers
