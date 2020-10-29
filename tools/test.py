@@ -92,10 +92,11 @@ class tester(object):
                 pred = torch.argmax(output[i], 0).squeeze(0).cpu().data.numpy()
                 mask = Image.fromarray((pred*255).astype('uint8'))
                 mask = self.val_dataset.mask_reversion_transform(mask, np.array(shape[i]))
-                outname = filename[i] + '.png'
+                name = os.path.basename(filename[i])
+                outname = name + '.png'
                 mask.save(os.path.join('output', outname))
             
-                image_path = os.path.join(cfg.DATASET.TEST_PATH, filename[i], filename[i]+'_PAN.tif')
+                image_path = os.path.join(cfg.DATASET.TEST_PATH, name, name+'_PAN.tif')
                 with rasterio.open(image_path) as src:
                     for vec in rasterio.features.shapes(np.array(mask), transform=src.transform):
                         print(vec)
