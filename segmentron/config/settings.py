@@ -1,7 +1,6 @@
 from .config import SegmentronConfig
 
 cfg = SegmentronConfig()
-print("cfg.DATASET: ", cfg.DATASET)
 
 ########################## basic set ###########################################
 # random seed
@@ -26,6 +25,11 @@ cfg.DATASET.IGNORE_INDEX = -1
 cfg.DATASET.WORKERS = 4
 # val dataset mode
 cfg.DATASET.MODE = 'testval'
+# others
+cfg.DATASET.TRAIN_PATH = '/kaggle/input/circle-finder-marathon-challenge-train-data/train'
+cfg.DATASET.TEST_PATH = '/kaggle/input/circle-finder-marathon-challenge-test-data/test'
+cfg.DATASET.NUM_CLASS = 2
+
 ########################### data augment ######################################
 # data augment image mirror
 cfg.AUG.MIRROR = True
