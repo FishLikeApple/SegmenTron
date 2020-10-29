@@ -78,6 +78,7 @@ class tester(object):
 
             with torch.no_grad():
                 output = model.evaluate(image)
+            print(output.size)
             print(output)
             a = 1/0
 
