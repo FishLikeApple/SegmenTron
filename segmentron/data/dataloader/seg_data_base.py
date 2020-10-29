@@ -73,7 +73,7 @@ class SegmentationDataset(object):
         # final transform
         img = self._img_transform(img)
             
-        return img, original_shape
+        return img, np.array(original_shape)
     
     def mask_reversion_transform(self, mask, target_size):
         w, h = mask.size
