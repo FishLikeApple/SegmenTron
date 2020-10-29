@@ -78,7 +78,6 @@ class SegmentationDataset(object):
     def mask_reversion_transform(self, mask, target_size):
         w, h = mask.size
         assert  (w == h)
-        print(target_size)
         if target_size[0] > target_size[1]:
             ow = target_size[0]
             oh = target_size[0]
