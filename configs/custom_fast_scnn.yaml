@@ -1,24 +1,22 @@
 DATASET:
     NAME: "custom"
-    MEAN: [0.449, 0.449, 0.449]
-    STD: [0.226, 0.226, 0.226]
     TRAIN_PATH: '/kaggle/input/circle-finder-marathon-challenge-train-data/train'
     TEST_PATH: '/kaggle/input/circle-finder-marathon-challenge-test-data/test'
     NUM_CLASS: 2
 TRAIN:
-    EPOCHS: 100
+    EPOCHS: 120
     BATCH_SIZE: 12
-    CROP_SIZE: (512, 512)
-    BASE_SIZE: 512
+    CROP_SIZE: (480, 480)
+    BASE_SIZE: 480
 TEST:
     BATCH_SIZE: 4
     TEST_MODEL_PATH: '/kaggle/input/circle-finder-marathon-challenge-checkpoint/runs/checkpoints/FastSCNN__custom_2020-10-26-06-48/best_model.pth'
 
 SOLVER:
-    LR: 0.3
+    LR: 0.4
     DECODER_LR_FACTOR: 1.0
     WEIGHT_DECAY: 4e-5
-    AUX: True
+    AUX: False
     AUX_WEIGHT: 0.4
 
 AUG:
