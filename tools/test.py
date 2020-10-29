@@ -16,6 +16,7 @@ import time
 
 from tabulate import tabulate
 from torchvision import transforms
+from segmentron.utils.visualize import get_color_pallete
 from segmentron.data.dataloader import get_segmentation_dataset
 from segmentron.models.model_zoo import get_segmentation_model
 from segmentron.utils.score import SegmentationMetric
