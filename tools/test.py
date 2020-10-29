@@ -96,7 +96,7 @@ class tester(object):
 
                 for vec in rasterio.features.shapes(np.array(mask)):
                     print(vec)
-                a = 0/1
+                a = 1/0
 
 if __name__ == '__main__':
     args = parse_args()
