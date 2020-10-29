@@ -56,12 +56,14 @@ class SegmentationDataset(object):
         else:
             oh = short_size
             ow = int(1.0 * w * oh / h)
+        print("ow, oh:", ow, oh)
         img = img.resize((ow, oh), Image.BILINEAR)
         # pad crop
         if short_size < min(crop_size):
             padh = crop_size[0] - oh if oh < crop_size[0] else 0
             padw = crop_size[1] - ow if ow < crop_size[1] else 0
             img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
+            print("padw, padh:", padw, padh)
             
         return img
     
@@ -73,17 +75,13 @@ class SegmentationDataset(object):
             oh = target_size[0]
             mask = mask.resize((ow, oh), Image.NEAREST)
             pad = oh - target_size[1]
-            pad1 = pad // 2
-            pad2 = round(pad/2.0)
-            mask = mask.crop((0, pad1, ow, oh-pad2))
+            mask = mask.crop((0, 0, ow, oh-pad))
         else:
             oh = target_size[1]
             ow = target_size[1]
             mask = mask.resize((ow, oh), Image.NEAREST)
             pad = ow - target_size[0]
-            pad1 = pad // 2
-            pad2 = round(pad/2.0)
-            mask = mask.crop((pad1, 0, ow-pad2, oh))
+            mask = mask.crop((0, 0, ow-pad, oh))
             
         return mask
     
