@@ -14,6 +14,7 @@ import torch.utils.data as data
 import torch.nn.functional as F
 import time
 from PIL import Image
+import numpy as np
 
 from tabulate import tabulate
 from torchvision import transforms
