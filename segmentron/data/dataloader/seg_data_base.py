@@ -56,14 +56,21 @@ class SegmentationDataset(object):
         else:
             oh = short_size
             ow = int(1.0 * w * oh / h)
-        print("ow, oh:", ow, oh)
         img = img.resize((ow, oh), Image.BILINEAR)
         # pad crop
         if short_size < min(crop_size):
             padh = crop_size[0] - oh if oh < crop_size[0] else 0
             padw = crop_size[1] - ow if ow < crop_size[1] else 0
             img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
-            print("padw, padh:", padw, padh)
+
+        # random crop crop_size
+        w, h = img.size
+        x1 = random.randint(0, w - crop_size[1])
+        y1 = random.randint(0, h - crop_size[0])
+        img = img.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
+
+        # final transform
+        img = self._img_transform(img)
             
         return img
     
