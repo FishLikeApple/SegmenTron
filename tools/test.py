@@ -87,7 +87,7 @@ class tester(object):
             for i in range(len(filename)):
                 pred = torch.argmax(output[i], 1).squeeze(0).cpu().data.numpy()
                 mask = get_color_pallete(pred, cfg.DATASET.NAME)
-                outname = filename[i] + '.jpg'
+                outname = filename[i] + '.png'
                 mask.save(os.path.join('output', outname))
 
 
