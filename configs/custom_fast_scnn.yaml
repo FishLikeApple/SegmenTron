@@ -2,6 +2,8 @@ DATASET:
     NAME: "custom"
     TRAIN_PATH: '/kaggle/input/circle-finder-marathon-challenge-train-data/train'
     TEST_PATH: '/kaggle/input/circle-finder-marathon-challenge-test-data/test'
+    MEAN: None
+    STD: None
     NUM_CLASS: 2
 TRAIN:
     EPOCHS: 120
