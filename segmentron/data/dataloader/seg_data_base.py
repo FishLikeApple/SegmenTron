@@ -50,7 +50,7 @@ class SegmentationDataset(object):
 
         short_size = self.base_size
         w, h = img.size
-        image_shape = img.size
+        original_shape = img.size
         if h > w:
             ow = short_size
             oh = int(1.0 * h * ow / w)
@@ -73,10 +73,10 @@ class SegmentationDataset(object):
         # final transform
         img = self._img_transform(img)
             
-        return img, image_shape
+        return img, original_shape
     
     def mask_reversion_transform(self, mask, target_size):
-        w, h = img.size
+        w, h = mask.size
         assert  (w == h)
         if target_size[0] > target_size[1]:
             ow = target_size[0]
