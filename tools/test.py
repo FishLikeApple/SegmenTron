@@ -86,9 +86,9 @@ class tester(object):
 
             for i in range(len(filename)):
                 print("output[i].size: ", output[i].data.numpy().shape)
-                pred = torch.argmax(output[i], 1).squeeze(0).cpu().data.numpy()
+                pred = torch.argmax(output[i], 2).squeeze(0).cpu().data.numpy()
                 print("pred.shape: ", pred.shape)
-                mask = get_color_pallete(pred, cfg.DATASET.NAME)
+                mask = pred * 255
                 outname = filename[i] + '.png'
                 mask.save(os.path.join('output', outname))
 
