@@ -86,10 +86,8 @@ class tester(object):
                 output = model.evaluate(image)
 
             for i in range(len(filename)):
-                print("output[i].size: ", output[i].data.numpy().shape)
                 pred = torch.argmax(output[i], 0).squeeze(0).cpu().data.numpy()
-                print(pred)
-                mask = Image.fromarray(pred*255)
+                mask = Image.fromarray((pred*255).astype('uint8'))
                 outname = filename[i] + '.png'
                 mask.save(os.path.join('output', outname))
 
