@@ -95,7 +95,7 @@ class tester(object):
                 outname = filename[i] + '.png'
                 mask.save(os.path.join('output', outname))
             
-                image_path = os.path.join(cfg.DATASET.TEST_PATH, foldername, foldername+'_PAN.tif')
+                image_path = os.path.join(cfg.DATASET.TEST_PATH, filename, filename+'_PAN.tif')
                 with rasterio.open(image_path) as src:
                     for vec in rasterio.features.shapes(np.array(mask), transform=src.transform):
                         print(vec)
