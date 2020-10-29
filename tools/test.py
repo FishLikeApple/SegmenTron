@@ -94,6 +94,9 @@ class tester(object):
                 outname = filename[i] + '.png'
                 mask.save(os.path.join('output', outname))
 
+                for vec in rasterio.features.shapes(np.array(mask)):
+                    print(vec)
+                a = 0/1
 
 if __name__ == '__main__':
     args = parse_args()
