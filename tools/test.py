@@ -85,7 +85,7 @@ class tester(object):
                 output = model.evaluate(image)
 
             for i in range(len(filename)):
-                print("output[i].size: ", output[i].size.data.numpy())
+                print("output[i].size: ", output[i].data.numpy().shape)
                 pred = torch.argmax(output[i], 1).squeeze(0).cpu().data.numpy()
                 print("pred.shape: ", pred.shape)
                 mask = get_color_pallete(pred, cfg.DATASET.NAME)
