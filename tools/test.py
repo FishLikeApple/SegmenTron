@@ -67,7 +67,7 @@ class tester(object):
 
     def test(self):
         if not os.path.exists('output'):
-            os.makedirs(output)
+            os.makedirs('output')
         
         if self.args.distributed:
             model = self.model.module
