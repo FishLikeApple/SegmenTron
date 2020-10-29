@@ -45,7 +45,7 @@ class tester(object):
                                           pin_memory=True)
         self.classes = val_dataset.classes
         # create network
-        self.model = get_segmentation_model().to(self.device)
+        self.model = get_segmentation_model(self.device)
 
         if hasattr(self.model, 'encoder') and hasattr(self.model.encoder, 'named_modules') and \
             cfg.MODEL.BN_EPS_FOR_ENCODER:
