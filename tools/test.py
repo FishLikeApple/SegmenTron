@@ -94,9 +94,11 @@ class tester(object):
                 mask = self.val_dataset.mask_reversion_transform(mask, np.array(shape[i]))
                 outname = filename[i] + '.png'
                 mask.save(os.path.join('output', outname))
-
-                for vec in rasterio.features.shapes(np.array(mask)):
-                    print(vec)
+            
+                image_path = os.path.join(self.args.DATASET.TEST_PATH, foldername, foldername+'_PAN.tif')
+                with rasterio.open(image_path) as src:
+                    for vec in rasterio.features.shapes(np.array(mask), transform=src.transform):
+                        print(vec)
                 print('')
 
 if __name__ == '__main__':
