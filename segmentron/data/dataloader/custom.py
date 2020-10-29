@@ -71,10 +71,10 @@ class CustomSegmentation(SegmentationDataset):
     def __getitem__(self, index):
         img = Image.open(self.images[index]).convert('RGB')
         if self.mode == 'test':
-            img = self._test_sync_transform(img)
+            img, shape = self._test_sync_transform(img)
             if self.transform is not None:
                 img = self.transform(img)
-            return img, os.path.basename(self.images[index])
+            return img, shape, os.path.basename(self.images[index])
         mask = Image.open(self.mask_paths[index])
         # synchrosized transform
         if self.mode == 'train':
