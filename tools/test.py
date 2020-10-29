@@ -12,6 +12,7 @@ import torch
 import torch.nn as nn
 import torch.utils.data as data
 import torch.nn.functional as F
+import time
 
 from tabulate import tabulate
 from torchvision import transforms
@@ -65,22 +66,27 @@ class tester(object):
                 setattr(m[1], attr, value)
 
     def test(self):
+        if not os.path.exists('output'):
+            os.makedirs(output)
+        
         if self.args.distributed:
             model = self.model.module
         else:
             model = self.model
 
         logging.info("Start test, Total sample: {:d}".format(len(self.val_loader)))
-        import time
+
         time_start = time.time()
         for i, (image, filename) in enumerate(self.val_loader):
             image = image.to(self.device)
 
             with torch.no_grad():
                 output = model.evaluate(image)
-            print(output.size)
-            print(output)
-            a = 1/0
+
+            pred = torch.argmax(output[0], 1).squeeze(0).cpu().data.numpy()
+            mask = get_color_pallete(pred, cfg.DATASET.NAME)
+            outname = os.path.splitext(os.path.split(filename)[-1])[0] + '.jpg'
+            mask.save(os.path.join(output, outname))
 
 
 if __name__ == '__main__':
