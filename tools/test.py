@@ -40,6 +40,7 @@ class tester(object):
 
         # dataset and dataloader
         val_dataset = get_segmentation_dataset(cfg.DATASET.NAME, split='trainval', mode='test', transform=input_transform)
+        self.val_dataset = val_dataset
         val_sampler = make_data_sampler(val_dataset, False, args.distributed)
         val_batch_sampler = make_batch_data_sampler(val_sampler, images_per_batch=cfg.TEST.BATCH_SIZE, drop_last=False)
         self.val_loader = data.DataLoader(dataset=val_dataset,
@@ -79,7 +80,7 @@ class tester(object):
         logging.info("Start test, Total sample: {:d}".format(len(self.val_loader)))
 
         time_start = time.time()
-        for i, (image, filename) in enumerate(self.val_loader):
+        for i, (image, shape, filename) in enumerate(self.val_loader):
             image = image.to(self.device)
 
             with torch.no_grad():
@@ -88,6 +89,7 @@ class tester(object):
             for i in range(len(filename)):
                 pred = torch.argmax(output[i], 0).squeeze(0).cpu().data.numpy()
                 mask = Image.fromarray((pred*255).astype('uint8'))
+                mask = self.val_dataset.mask_reversion_transform(mask, shape)
                 outname = filename[i] + '.png'
                 mask.save(os.path.join('output', outname))
 
