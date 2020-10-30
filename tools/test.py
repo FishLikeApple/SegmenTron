@@ -107,8 +107,8 @@ class tester(object):
                 with rasterio.open(image_path) as src:
                     features = []
                     for vec in rasterio.features.shapes(np.array(mask), transform=src.transform):
-                        if vec[1] == 0
-                        features.append({ "type": "Feature", "properties": { }, "geometry": vec[0]})
+                        if vec[1] == 0：
+                            features.append({ "type": "Feature", "properties": { }, "geometry": vec[0]})
                 json_output["features"] = features
                 with open(os.path.join('output', name+"_anno.geojson"), "w") as f:
                     json.dump(json_output, f)
