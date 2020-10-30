@@ -74,6 +74,8 @@ class tester(object):
     def test(self):
         if not os.path.exists('output'):
             os.makedirs('output')
+        if not os.path.exists('mask_output'):
+            os.makedirs('mask_output')
         
         if self.args.distributed:
             model = self.model.module
@@ -100,7 +102,7 @@ class tester(object):
                 mask = Image.fromarray((pred*255).astype('uint8'))
                 mask = self.val_dataset.mask_reversion_transform(mask, np.array(shape[i]))
                 name = filename[i].split('_')[0]
-                outname = name + '.png'
+                outname = os.path.join('mask_output', name+".png")
                 mask.save(outname)
             
                 image_path = os.path.join(cfg.DATASET.TEST_PATH, name, name+'_PAN.tif')
@@ -113,7 +115,7 @@ class tester(object):
                 with open(os.path.join('output', name+"_anno.geojson"), "w") as f:
                     json.dump(json_output, f)
                     
-                print('')
+        os.system("rm -rf mask_output")
 
 if __name__ == '__main__':
     args = parse_args()
