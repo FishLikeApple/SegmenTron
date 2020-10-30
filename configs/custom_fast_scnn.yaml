@@ -15,7 +15,7 @@ TEST:
     TEST_MODEL_PATH: '/kaggle/input/circle-finder-marathon-challenge-checkpoint/runs/checkpoints/FastSCNN__custom_2020-10-26-06-48/best_model.pth'
 
 SOLVER:
-    LR: 0.4
+    LR: 0.04
     DECODER_LR_FACTOR: 1.0
     WEIGHT_DECAY: 4e-5
     AUX: False
