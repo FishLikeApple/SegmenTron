@@ -16,6 +16,7 @@ import time
 from PIL import Image
 import numpy as np
 import rasterio
+import json
 
 from tabulate import tabulate
 from torchvision import transforms
@@ -88,18 +89,30 @@ class tester(object):
             with torch.no_grad():
                 output = model.evaluate(image)
 
+            json_output = {
+                            "type": "FeatureCollection",
+                            "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32637" } },
+                            "features": []
+                          }
+
             for i in range(len(filename)):
                 pred = torch.argmax(output[i], 0).squeeze(0).cpu().data.numpy()
                 mask = Image.fromarray((pred*255).astype('uint8'))
                 mask = self.val_dataset.mask_reversion_transform(mask, np.array(shape[i]))
                 name = filename[i].split('_')[0]
                 outname = name + '.png'
-                mask.save(os.path.join('output', outname))
+                mask.save(outname)
             
                 image_path = os.path.join(cfg.DATASET.TEST_PATH, name, name+'_PAN.tif')
                 with rasterio.open(image_path) as src:
+                    features = []
                     for vec in rasterio.features.shapes(np.array(mask), transform=src.transform):
-                        print(vec)
+                        if vec[1] == 0
+                        features.append({ "type": "Feature", "properties": { }, "geometry": vec[0]})
+                json_output["features"] = features
+                with open(os.path.join('output', name+"_anno.geojson"), "w") as f:
+                    json.dump(json_output, f)
+                    
                 print('')
 
 if __name__ == '__main__':
