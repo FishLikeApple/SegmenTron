@@ -116,7 +116,7 @@ class tester(object):
                 with open(anno_path, "w") as f:
                     json.dump(json_output, f)
                     
-                self.val_dataset._get_mask(image_path, anno_path, 'test.jpg')
+                self.val_dataset._get_mask(image_path, anno_path, outname+'.tif')
                 a = 1/0
                     
         os.system("rm -rf mask_output")
