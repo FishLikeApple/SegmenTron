@@ -54,7 +54,7 @@ class CustomSegmentation(SegmentationDataset):
         else:
             self.root = train_root
             assert os.path.exists(self.root)
-            _get_masks(self.root)
+            self._get_masks(self.root)
             self.images, self.mask_paths = _get_dataset_pairs(self.root, MASK_PATH, self.split)
             assert (len(self.images) == len(self.mask_paths))
         if len(self.images) == 0:
@@ -115,38 +115,38 @@ class CustomSegmentation(SegmentationDataset):
         """Category names."""
         return ('circle')
     
-def _get_mask(image_file, anno_file, output_mask_file):
-    with fiona.open(anno_file, "r") as annotation_collection:
-        annotations = [feature["geometry"] for feature in annotation_collection]
-                    
-    with rasterio.open(image_file) as src:
-        out_image, out_transform = rasterio.mask.mask(src, annotations, all_touched=False, invert=True)
-        out_meta = src.meta
-        
-    with rasterio.open(output_mask_file, "w", **out_meta) as dest:
-        dest.write(out_image)
+    def _get_mask(self, image_file, anno_file, output_mask_file):
+        with fiona.open(anno_file, "r") as annotation_collection:
+            annotations = [feature["geometry"] for feature in annotation_collection]
 
-    with rasterio.open(output_mask_file) as src:
-        out_image, out_transform = rasterio.mask.mask(src, annotations, all_touched=False, nodata=255, invert=False)
-        out_meta = src.meta
+        with rasterio.open(image_file) as src:
+            out_image, out_transform = rasterio.mask.mask(src, annotations, all_touched=False, invert=True)
+            out_meta = src.meta
 
-        out_meta.update({"driver": "GTiff",
-                     "height": out_image.shape[1],
-                     "width": out_image.shape[2],
-                     "transform": out_transform})
+        with rasterio.open(output_mask_file, "w", **out_meta) as dest:
+            dest.write(out_image)
 
-    with rasterio.open(output_mask_file, "w", **out_meta) as dest:
-        dest.write(out_image)
+        with rasterio.open(output_mask_file) as src:
+            out_image, out_transform = rasterio.mask.mask(src, annotations, all_touched=False, nodata=255, invert=False)
+            out_meta = src.meta
 
-def _get_masks(data_folder, output_path='masks/'):
-    print("start getting masks...")
-    for root, dirs, _ in os.walk(data_folder):
-            for dir in dirs:
-                foldername = os.path.basename(dir)
-                image_path = os.path.join(data_folder, dir, foldername+'_PAN.tif')
-                anno_path = os.path.join(data_folder, dir, foldername+'_anno.geojson')
-                _get_mask(image_path, anno_path, output_path+foldername+'_mask.tif')
-                print("mask "+foldername+" is done.")
+            out_meta.update({"driver": "GTiff",
+                         "height": out_image.shape[1],
+                         "width": out_image.shape[2],
+                         "transform": out_transform})
+
+        with rasterio.open(output_mask_file, "w", **out_meta) as dest:
+            dest.write(out_image)
+
+    def _get_masks(self, data_folder, output_path='masks/'):
+        print("start getting masks...")
+        for root, dirs, _ in os.walk(data_folder):
+                for dir in dirs:
+                    foldername = os.path.basename(dir)
+                    image_path = os.path.join(data_folder, dir, foldername+'_PAN.tif')
+                    anno_path = os.path.join(data_folder, dir, foldername+'_anno.geojson')
+                    self._get_mask(image_path, anno_path, output_path+foldername+'_mask.tif')
+                    print("mask "+foldername+" is done.")
 
 def _get_dataset_pairs(data_folder, mask_folder, split='train', random_seed=6):
     print("start getting dataset pairs...")
