@@ -112,8 +112,12 @@ class tester(object):
                         if vec[1] == 0:
                             features.append({ "type": "Feature", "properties": { }, "geometry": vec[0]})
                 json_output["features"] = features
-                with open(os.path.join('output', name+"_anno.geojson"), "w") as f:
+                anno_path = os.path.join('output', name+"_anno.geojson")
+                with open(anno_path, "w") as f:
                     json.dump(json_output, f)
+                    
+                self.val_dataset._get_mask(image_path, anno_path, 'test.jpg')
+                a = 1/0
                     
         os.system("rm -rf mask_output")
 
