@@ -96,8 +96,6 @@ class tester(object):
                             "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32637" } },
                             "features": []
                           }
-            
-            np.
 
             for i in range(len(filename)):
                 pred = torch.argmax(output[i], 0).squeeze(0).cpu().data.numpy()
