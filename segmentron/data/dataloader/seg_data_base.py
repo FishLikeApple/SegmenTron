@@ -13,7 +13,7 @@ __all__ = ['SegmentationDataset']
 class SegmentationDataset(object):
     """Segmentation Base Dataset"""
 
-    def __init__(self, root, split, mode, transform, base_size=520, crop_size=480):
+    def __init__(self, root, split, mode, transform, base_size=512, crop_size=512):
         super(SegmentationDataset, self).__init__()
         print("root: ", root)
         self.root = os.path.join(cfg.ROOT_PATH, root)
