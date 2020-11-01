@@ -85,7 +85,7 @@ class tester(object):
         logging.info("Start test, Total sample: {:d}".format(len(self.val_loader)))
 
         time_start = time.time()
-        for i, (image, shape, filename) in enumerate(self.val_loader):
+        for q, (image, shape, filename) in enumerate(self.val_loader):
             image = image.to(self.device)
 
             with torch.no_grad():
@@ -122,7 +122,8 @@ class tester(object):
                 im = Image.fromarray(ay)
                 im.save(outname+'.png')
                 
-            a = 1/0
+            if q == 5:
+                a = 1/0
                     
         os.system("rm -rf mask_output")
 
