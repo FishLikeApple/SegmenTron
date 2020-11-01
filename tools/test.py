@@ -122,7 +122,7 @@ class tester(object):
                 im = Image.fromarray(ay)
                 im.save(outname+'.png')
                 
-                a = 1/0
+            a = 1/0
                     
         os.system("rm -rf mask_output")
 
