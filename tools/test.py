@@ -96,6 +96,8 @@ class tester(object):
                             "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32637" } },
                             "features": []
                           }
+            
+            np.
 
             for i in range(len(filename)):
                 pred = torch.argmax(output[i], 0).squeeze(0).cpu().data.numpy()
@@ -104,7 +106,7 @@ class tester(object):
                 name = filename[i].split('_')[0]
                 outname = os.path.join('mask_output', name+".png")
                 mask.save(outname)
-            
+                
                 image_path = os.path.join(cfg.DATASET.TEST_PATH, name, name+'_PAN.tif')
                 with rasterio.open(image_path) as src:
                     features = []
@@ -117,6 +119,10 @@ class tester(object):
                     json.dump(json_output, f)
                     
                 self.val_dataset._get_mask(image_path, anno_path, outname+'.tif')
+                
+                image = Image.fromarray(np.transpose(np, (2, 1, 0)).astype('uint8'))
+                image.save(outname+'png')
+                
                 a = 1/0
                     
         os.system("rm -rf mask_output")
