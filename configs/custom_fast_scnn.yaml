@@ -12,7 +12,7 @@ TRAIN:
     BASE_SIZE: 512
 TEST:
     BATCH_SIZE: 4
-    TEST_MODEL_PATH: '/kaggle/input/circle-finder-marathon-challenge-checkpoint/runs/checkpoints/FastSCNN__custom_2020-10-26-06-48/best_model.pth'
+    TEST_MODEL_PATH: '/kaggle/input/circle-finder-marathon-challenge-checkpoint/runs/checkpoints/FastSCNN__custom_2020-11-01-09-05/best_model.pth'
 
 SOLVER:
     LR: 0.3
