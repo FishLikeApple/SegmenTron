@@ -119,7 +119,7 @@ class tester(object):
                 self.val_dataset._get_mask(image_path, anno_path, outname+'.tif')
                 
                 image = Image.fromarray(np.transpose(np, (2, 1, 0)).astype('uint8'))
-                image.save(outname+'png')
+                image.save(outname+'.png')
                 
                 a = 1/0
                     
