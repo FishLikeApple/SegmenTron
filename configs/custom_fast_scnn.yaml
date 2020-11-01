@@ -17,7 +17,7 @@ TEST:
 SOLVER:
     LR: 0.3
     DECODER_LR_FACTOR: 1.0
-    WEIGHT_DECAY: 4e-6
+    WEIGHT_DECAY: 4e-7
     AUX: True
     AUX_WEIGHT: 0.4
 
