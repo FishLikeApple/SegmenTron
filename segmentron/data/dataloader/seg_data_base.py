@@ -49,6 +49,7 @@ class SegmentationDataset(object):
         crop_size = self.crop_size
 
         short_size = self.base_size
+        '''
         w, h = img.size
         original_shape = img.size
         if h > w:
@@ -69,7 +70,19 @@ class SegmentationDataset(object):
         x1 = random.randint(0, w - crop_size[1])
         y1 = random.randint(0, h - crop_size[0])
         img = img.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
-
+        '''
+        if h < w:
+            ow = crop_size[0]
+            oh = int(1.0 * h * ow / w)
+            padh = ow - oh
+            padw = 0
+        else:
+            oh = crop_size[1]
+            ow = int(1.0 * w * oh / h)
+            padh = 0
+            padw = oh - ow
+        img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
+            
         # final transform
         img = self._img_transform(img)
             
@@ -98,6 +111,7 @@ class SegmentationDataset(object):
 
         short_size = self.base_size
         w, h = img.size
+        '''
         if h > w:
             ow = short_size
             oh = int(1.0 * h * ow / w)
@@ -118,6 +132,18 @@ class SegmentationDataset(object):
         y1 = random.randint(0, h - crop_size[0])
         img = img.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
         mask = mask.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
+        '''
+        if h < w:
+            ow = crop_size[0]
+            oh = int(1.0 * h * ow / w)
+            padh = ow - oh
+            padw = 0
+        else:
+            oh = crop_size[1]
+            ow = int(1.0 * w * oh / h)
+            padh = 0
+            padw = oh - ow
+        img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
 
         # final transform
         img, mask = self._img_transform(img), self._mask_transform(mask)
@@ -133,6 +159,7 @@ class SegmentationDataset(object):
         # random scale (short edge)
         short_size = random.randint(self.base_size, int(self.base_size * 1.1))
         w, h = img.size
+        '''
         if h > w:
             ow = short_size
             oh = int(1.0 * h * ow / w)
@@ -155,7 +182,18 @@ class SegmentationDataset(object):
         y1 = random.randint(0, h - crop_size[0])
         img = img.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
         mask = mask.crop((x1, y1, x1 + crop_size[1], y1 + crop_size[0]))
-
+        '''
+        if h < w:
+            ow = crop_size[0]
+            oh = int(1.0 * h * ow / w)
+            padh = ow - oh
+            padw = 0
+        else:
+            oh = crop_size[1]
+            ow = int(1.0 * w * oh / h)
+            padh = 0
+            padw = oh - ow
+        img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
         """
         # gaussian blur as in PSP
         if cfg.AUG.BLUR_PROB > 0 and random.random() < cfg.AUG.BLUR_PROB:
