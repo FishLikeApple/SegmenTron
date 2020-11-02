@@ -49,9 +49,9 @@ class SegmentationDataset(object):
         crop_size = self.crop_size
 
         short_size = self.base_size
-        '''
         w, h = img.size
         original_shape = img.size
+        '''
         if h > w:
             ow = short_size
             oh = int(1.0 * h * ow / w)
@@ -144,7 +144,8 @@ class SegmentationDataset(object):
             padh = 0
             padw = oh - ow
         img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
-
+        mask = ImageOps.expand(mask, border=(0, 0, padw, padh), fill=-1)
+        
         # final transform
         img, mask = self._img_transform(img), self._mask_transform(mask)
         return img, mask
@@ -194,6 +195,7 @@ class SegmentationDataset(object):
             padh = 0
             padw = oh - ow
         img = ImageOps.expand(img, border=(0, 0, padw, padh), fill=0)
+        mask = ImageOps.expand(mask, border=(0, 0, padw, padh), fill=-1)
         """
         # gaussian blur as in PSP
         if cfg.AUG.BLUR_PROB > 0 and random.random() < cfg.AUG.BLUR_PROB:
